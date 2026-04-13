@@ -24,6 +24,7 @@ and it is initially INT_Max or infinity.
 Then, we start mst from vertex 1
 and push (weight=0, vertex=1) in queue ***/
     int key[MAX];
+    int parent[MAX];
     for(int i=1;i<=n;i++)
         key[i]=INT_MAX;
     key[1]=0;
@@ -46,6 +47,12 @@ and push (weight=0, vertex=1) in queue ***/
         inMST[u]=true;// else mark u as true and add weight to cost
         cost+=w;
 
+            if(parent[u]!=0){
+          char ch1 = 'A'+u-1;
+          char ch2 = 'A'+parent[u]-1;
+          cout<<ch1<<" - "<<ch2<<" :"<<key[u]<<endl;
+
+    }
         /*** We check for every adjacent vertex(v,w) of u here
         -> if v neighbour vertex of u is not in mst and its weight is less than key[v], then update key[v]
         ->then insert (w,v) in priority queue
@@ -56,6 +63,7 @@ and push (weight=0, vertex=1) in queue ***/
 
             if(!inMST[v] && weight < key[v]){
                 key[v]=weight;
+                parent[v]=u;
                 pq.push({weight,v});
             }
         }
@@ -73,11 +81,14 @@ int main(){
     cout<<"Enter edges (u v w):\n";
 
     for(int i=0;i<e;i++){
-        int u,v,w;
-        cin>>u>>v>>w;
-
+        char ch1,ch2;
+        int w;
+        cin>>ch1>>ch2>>w;
+        int u=ch1-'A'+1;
+        int v=ch2-'A'+1;
         graph[u].push_back({v,w});
         graph[v].push_back({u,w});
+
     }
 
     prim(n);
